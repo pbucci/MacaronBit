@@ -60,7 +60,11 @@ And this to talk to the Arduino:
 
 Now, you can build the environment with `npm run deploy`.
 
-Make sure the Arduino is loaded up with StandardFirmata (Examples > Firmata > Standard Firmata)
+Make sure the Arduino is loaded up with StandardFirmata (Examples > Firmata > Standard Firmata). The Bit should be plugged in as follows:
+
+Data pin (usually orange or yellow) : 9
+High/positive (usually red) : 5V
+Low/negative/ground (usually black or brown) : any GND
 
 You can start serving on `localhost:8080` with `node server`.
 
