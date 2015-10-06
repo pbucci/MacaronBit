@@ -90,7 +90,7 @@ io.on('connection', function(socket){
             scaled_points.push(p);
         }
         rendered_path = scaled_points;
-        console.log(scaled_points);
+        // console.log(scaled_points);
     });
 	socket.on('render', function(){
         render();
@@ -115,14 +115,23 @@ board.on("ready", function() {
     	console.log('Sweep away, my captain.');
 });
 
+var timeouts = [];
 function render() {
+    stop_render();
     for(var i=0;i<rendered_path.length;i++) {
-        doSetTimeout(i);
+        timeouts.push(doSetTimeout(i));
+    }
+}
+
+function stop_render() {
+    for (var i=0; i<timeouts.length; i++) {
+        clearTimeout(timeouts[i]);
     }
 }
 function doSetTimeout(i) {
-    setTimeout(function(){
+    var t = setTimeout(function(){
         myServo.to(rendered_path[i]);
-        console.log('Moving servo to ' + rendered_path[i]);
+        //console.log('Moving servo to ' + rendered_path[i]);
     },50 * i);
+    return t;
 }
