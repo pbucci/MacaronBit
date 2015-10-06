@@ -1,6 +1,14 @@
 # Macaron
 Vibrotactile Icon Editor
 
+##
+
+Quick install command:
+
+- `npm install react --save`
+- `npm install -g webpack`
+- `npm i webpack webpack-dev-server babel-loader d3 reflux firebase imports-loader script-loader style-loader css-loader socket.io express johnny-five --save`
+
 ## Build Environment
 
 Macaron requires the following libraries:
@@ -50,10 +58,15 @@ And this to talk to the Arduino:
 
 - `npm install johnny-five --save`
 
-Now, you can build the environment with `npm run build`, and serve it on `localhost:8080` with `npm run dev`. When served, it will automatically refresh when you change components.
-For more information, follow this tutorial: https://github.com/christianalfoni/react-webpack-cookbook/wiki
+Now, you can build the environment with `npm run deploy`.
 
+Make sure the Arduino is loaded up with StandardFirmata (Examples > Firmata > Standard Firmata). The Bit should be plugged in as follows:
 
+- Data pin (usually orange or yellow) : 9
+- High/positive (usually red) : 5V
+- Low/negative/ground (usually black or brown) : any GND
+
+You can start serving on `localhost:8080` with `node server`.
 
 [nodejs]: http://nodejs.org
 [npm]: https://www.npmjs.org
