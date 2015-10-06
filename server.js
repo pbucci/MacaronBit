@@ -136,6 +136,6 @@ function doSetTimeout(i) {
     var t = setTimeout(function(){
         myServo.to(rendered_path[i]);
         console.log('Moving servo to ' + rendered_path[i]);
-    },50 * i);
+    },5 * i);
     return t;
 }
