@@ -64,7 +64,6 @@ io.on('connection', function(socket){
     });
 
     socket.on('stop_render', function() {
-        console.log("Stopping render...");
         stop_render();
     });
 
@@ -116,12 +115,18 @@ function makepath(range,path) {
 var timeouts = [];
 function render() {
     stop_render();
-    for(var i=0;i<rendered_path.length;i++) {
-        timeouts.push(doSetTimeout(i));
+    if (rendered_path.length==0) {
+        console.log('No path to render yet...');
+    }
+    else {
+        for(var i=0;i<rendered_path.length;i++) {
+            timeouts.push(doSetTimeout(i));
+        }
     }
 }
 
 function stop_render() {
+    // console.log("Stopping render...");
     for (var i=0; i<timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }

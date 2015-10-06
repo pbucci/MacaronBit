@@ -331,7 +331,8 @@ var VTEditor = React.createClass({
 						interpolateParameters={this.interpolateParameters}
 						interpolateParameter={this.interpolateParameter}
 						selection={this.state.selection}
-						selectable={iconVisSelectable} />
+						selectable={iconVisSelectable}
+						/>
 					{Object.keys(example_icon.parameters).map( (p) => (
 							<KeyframeEditor
 								name="example"
@@ -345,7 +346,8 @@ var VTEditor = React.createClass({
 								selectable={keyframeSelectable}
 								visualization={visualization}
 								visualizeTicks={visualizeTicks}
-								modifiable={modifiable} />
+								modifiable={modifiable}
+								/>
 						))}
 				</div>);
 				exampleGallery =  <Gallery />;
@@ -380,7 +382,9 @@ var VTEditor = React.createClass({
 						playheadFill={this.props.playheadFill}
 						interpolateParameters={this.interpolateParameters}
 						interpolateParameter={this.interpolateParameter}
-						selection={this.state.selection}/>
+						selection={this.state.selection}
+						logValues={true}
+						/>
 					{Object.keys(design_icon.parameters).map( (p) => (
 							<KeyframeEditor
 								name="main"
