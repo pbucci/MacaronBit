@@ -68,9 +68,11 @@ io.on('connection', function(socket){
         stop_render();
     });
 
-    socket.on('path', function(path,range){
-        console.log("Path received.")
-        makepath(path,range);
+    socket.on('path', function(msg){
+        var path = msg['path'];
+        var range = msg['range'];
+        console.log("Path received.");
+        makepath(range,path);
     });
 
 	socket.on('render', function(){
@@ -94,19 +96,13 @@ board.on("ready", function() {
     	console.log('Sweep away, my captain.');
 });
 
-function makepath(path,range) {
+function makepath(range,path) {
     var unscaled_points = [];
     var scaled_points = [];
     var values = path.split(',');
 
     for (var i=10; i<values.length; i++) {
         var value = parseFloat(values[i].split('L')[0]);
-        // if (value > max) {
-        //     max = value;
-        // }
-        // if (value < min) {
-        //     min = value;
-        // }
         unscaled_points.push(value);
     }
     for (var i=0; i < unscaled_points.length; i++) {
