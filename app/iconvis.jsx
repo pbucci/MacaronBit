@@ -29,7 +29,7 @@ var IconVis = React.createClass({
 	    return {
 	      height: 25,
 	      width:'100%',
-	      visColor:'#FFDDAD',
+	      visColor:'#4C4233',
 	      background:"#FAFAFA",
 	      resolution:3000,
 	      maxFrequencyRendered:125,
@@ -52,7 +52,7 @@ var IconVis = React.createClass({
 			scaleX, scaleY,
 			this.props.resolution, this.props.maxFrequencyRendered, this.props.limitFrequencies);
 		console.log('changing vticon');
-		socket.emit('path',this._visPath);
+		socket.emit('path',this.props.height,this._visPath);
 
 	},
 

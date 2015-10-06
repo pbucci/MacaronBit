@@ -64,16 +64,18 @@ io.on('connection', function(socket){
     });
 
     socket.on('stop_render', function() {
+        console.log("Stopping render...");
         stop_render();
     });
 
-    socket.on('path', function(path){
-        makepath(path);
+    socket.on('path', function(path,range){
+        console.log("Path received.")
+        makepath(path,range);
     });
 
 	socket.on('render', function(){
+        console.log('Rendering...');
         render();
-		console.log('Loading points.');
 	});
 });
 
@@ -91,6 +93,29 @@ board.on("ready", function() {
 	io.emit('server_message','Ready to start board.');
     	console.log('Sweep away, my captain.');
 });
+
+function makepath(path,range) {
+    var unscaled_points = [];
+    var scaled_points = [];
+    var values = path.split(',');
+
+    for (var i=10; i<values.length; i++) {
+        var value = parseFloat(values[i].split('L')[0]);
+        // if (value > max) {
+        //     max = value;
+        // }
+        // if (value < min) {
+        //     min = value;
+        // }
+        unscaled_points.push(value);
+    }
+    for (var i=0; i < unscaled_points.length; i++) {
+        var p = (unscaled_points[i] / range) * 180;
+        scaled_points.push(p);
+    }
+    rendered_path = scaled_points;
+}
+
 
 var timeouts = [];
 function render() {
@@ -111,33 +136,4 @@ function doSetTimeout(i) {
         console.log('Moving servo to ' + rendered_path[i]);
     },50 * i);
     return t;
-}
-
-function makepath(path) {
-    var unscaled_points = [];
-    var scaled_points = [];
-
-    var values = path.split(',');
-
-    // console.log(parseFloat(values[10].split('L')[0]));
-    for (var i=10; i<values.length; i++) {
-        var value = parseFloat(values[i].split('L')[0]);
-        // if (value > max) {
-        //     max = value;
-        // }
-        // if (value < min) {
-        //     min = value;
-        // }
-        unscaled_points.push(value);
-    }
-    // console.log(unscaled_points);
-    var min = 0;  // may need to change these for scaling factor
-    var max = 50; //
-    var span = max - min;
-
-    for (var i=0; i < unscaled_points.length; i++) {
-        var p = ((unscaled_points[i] - min) / span) * 180;
-        scaled_points.push(p);
-    }
-    rendered_path = scaled_points;
 }

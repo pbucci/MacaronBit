@@ -28,7 +28,8 @@ var EditorHeader = React.createClass({
 	    	displaySaveButton:true,
 	    	displayStartButton:true,
 			displayTestButton:true,
-			displayRenderButton:true
+			displayRenderButton:true,
+			displayStopButton:true,
 	    }
 	},
 
@@ -54,6 +55,10 @@ var EditorHeader = React.createClass({
 
 	_onRenderClick : function(e) {
 		socket.emit('render');
+	},
+
+	_onStopClick : function(e) {
+		socket.emit('stop_render');
 	},
 
 	/**
@@ -117,6 +122,12 @@ var EditorHeader = React.createClass({
 			renderButton = (<button onClick={this._onRenderClick}>Render</button>);
 		}
 
+		var stopButton = <span />
+		if (this.props.displayStopButton)
+		{
+			stopButton = (<button onClick={this._onStopClick}>Stop</button>);
+		}
+
 
 		return (
 			<div className="header" style={headerStyle}>
@@ -127,6 +138,7 @@ var EditorHeader = React.createClass({
 				{saveButton}
 				{testButton}
 				{renderButton}
+				{stopButton}
 			</div>
 			);
 	}
