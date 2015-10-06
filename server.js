@@ -125,6 +125,7 @@ function stop_render() {
     for (var i=0; i<timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
+    console.log("Stopped render.");
 }
 function doSetTimeout(i) {
     var t = setTimeout(function(){

@@ -52,7 +52,7 @@ var IconVis = React.createClass({
 			scaleX, scaleY,
 			this.props.resolution, this.props.maxFrequencyRendered, this.props.limitFrequencies);
 		console.log('changing vticon');
-		socket.emit('path',{range:this.props.height,path:this._visPath);
+		socket.emit('path',{range:this.props.height,path:this._visPath});
 
 	},
 
