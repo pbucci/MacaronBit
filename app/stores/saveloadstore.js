@@ -28,7 +28,6 @@ var saveLoadStore = Reflux.createStore({
 
 		reader.onload = function(e) {
 			var data = reader.result;
-			console.log(data);
 			LogStore.actions.log("LOAD_"+data);
 			VTIconStore.actions.setVTIcon(JSON.parse(data), "main");
 		};
