@@ -56,7 +56,7 @@ var EditorHeader = React.createClass({
 		if (uploadedFiles.files.length > 0) {
 			SaveLoadStore.actions.loadMacaronFile(uploadedFiles.files[0]);
 		}
-
+		uploadedFiles.value = [];
 	},
 
 	_onTestClick : function(e) {
