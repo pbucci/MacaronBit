@@ -59,6 +59,7 @@ And this to talk to the Arduino:
 - `npm install johnny-five --save`
 
 Now, you can build the environment with `npm run deploy`.
+Note that there are two packages for windows and mac users: "package[mac use this].json", and "package[windows use this].json". Rename the package corresponding to your OS to "package.json". Also note that .gitignore has been updated to ignore "package.json", so if you are adding packages...beware!
 
 Make sure the Arduino is loaded up with StandardFirmata (Examples > Firmata > Standard Firmata). The Bit should be plugged in as follows:
 
