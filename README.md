@@ -3,11 +3,14 @@ Vibrotactile Icon Editor
 
 ##
 
-Quick install command (note first line should be merged into chain):
+Quick install:
 
-- `npm install react --save`
-- `npm install -g webpack`
-- `npm i webpack webpack-dev-server babel-loader d3 reflux firebase imports-loader script-loader style-loader css-loader socket.io express johnny-five --save`
+`npm install`
+`npm run deploy`
+
+Run with:
+
+`node server.js`
 
 ## Build Environment
 

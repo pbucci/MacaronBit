@@ -11,7 +11,8 @@ var path = require('path');
 // Globals
 //------------------------------------------------------------------------------
 var board, myServo;
-var rendered_path = [];
+var rendered_path_main = [];
+var rendered_path_example = [];
 
 //------------------------------------------------------------------------------
 // Server setup
@@ -51,7 +52,7 @@ io.on('connection', function(socket){
 	// Test servo motion
 	socket.on('test', function(){
         	io.emit('server_message', 'Started arduino sweep.');
-        	myServo.to(0);
+        	myMotor.start(255);
 		console.log('Arduino test.');
 	});
 
@@ -59,7 +60,7 @@ io.on('connection', function(socket){
     socket.on('degree', function(degree){
             var d = parseInt(degree);
         	io.emit('server_message', 'Moving to degree ' + degree + ".");
-        	myServo.to(d);
+        	myMotor.start(255);
 		console.log('Moving to degree ' + degree + ".");
     });
 
@@ -70,8 +71,9 @@ io.on('connection', function(socket){
     socket.on('path', function(msg){
         var path = msg['path'];
         var range = msg['range'];
-        console.log("Path received.");
-        makepath(range,path);
+        var name = msg['name']
+        console.log("Path received for " + name + ".");
+        makepath(range,path,name);
     });
 
 	socket.on('render', function(){
@@ -81,45 +83,76 @@ io.on('connection', function(socket){
 });
 
 board = new five.Board();
-var myServo;
+var myMotor;
 board.on("ready", function() {
-	myServo = new five.Servo({
-		pin:9,
-		center:true,
-		range: [0,180]
+    var standby = new five.Pin(7);
+    standby.high()
+
+	myMotor = new five.Motor({
+		pins: {
+            pwm:3,
+            dir:9,
+            cdir:8
+        }
 	});
+
+    myServo = new five.Servo({
+        pin:10,
+        center:true,
+        range: [0,180]
+    });
+
 	board.repl.inject({
-		servo: myServo
+		motor: myMotor,
+        servo: myServo
 	});
 	io.emit('server_message','Ready to start board.');
     	console.log('Sweep away, my captain.');
 });
 
-function makepath(range,path) {
+function makepath(range,path,name) {
     var unscaled_points = [];
     var scaled_points = [];
+    var scale_factor = 180
+    var offset = 0
     var values = path.split(',');
+
+    if (name=="example") {
+        scale_factor = 255;
+        offset = 100
+    }
+
 
     for (var i=10; i<values.length; i++) {
         var value = parseFloat(values[i].split('L')[0]);
         unscaled_points.push(value);
     }
+
     for (var i=0; i < unscaled_points.length; i++) {
-        var p = (unscaled_points[i] / range) * 180;
-        scaled_points.push(p);
-    }
-    rendered_path = scaled_points;
+    var p =  Math.max(((unscaled_points[i] / range) * scale_factor) - offset,0);
+    scaled_points.push(p);
+    }    
+
+    
+    rendered_path(scaled_points,name);
 }
 
+function rendered_path(sp,name) {
+    if (name=="example") {
+        rendered_path_example = sp;
+    } else if (name=="main") {
+        rendered_path_main = sp;
+    }
+}
 
 var timeouts = [];
 function render() {
     stop_render();
-    if (rendered_path.length==0) {
+    if (rendered_path_main.length==0 || rendered_path_example.length == 0) {
         console.log('No path to render yet...');
     }
     else {
-        for(var i=0;i<rendered_path.length;i++) {
+        for(var i=0;i<rendered_path_main.length;i++) {
             timeouts.push(doSetTimeout(i));
         }
     }
@@ -127,6 +160,7 @@ function render() {
 
 function stop_render() {
     // console.log("Stopping render...");
+    myMotor.start(0)
     for (var i=0; i<timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
@@ -134,8 +168,10 @@ function stop_render() {
 }
 function doSetTimeout(i) {
     var t = setTimeout(function(){
-        myServo.to(rendered_path[i]);
-        console.log('Moving servo to ' + rendered_path[i]);
+        myServo.to(rendered_path_main[i]);
+        myMotor.start(rendered_path_example[i]);
+        console.log('Setting speed to ' + rendered_path_example[i]);
+        console.log('Rotating servo to ' + rendered_path_main[i]);
     },5 * i);
     return t;
 }
