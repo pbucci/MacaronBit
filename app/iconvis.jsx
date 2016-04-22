@@ -54,7 +54,11 @@ var IconVis = React.createClass({
 		console.log('changing vticon');
 		if (this.props.logValues) {
 			var socket = io();
+<<<<<<< HEAD
 			socket.emit('path',{range:this.props.height,path:this._visPath});
+=======
+			socket.emit('path',{range:this.props.height,path:this._visPath,name:this.props.name});
+>>>>>>> pb_2dof
 		}
 
 	},

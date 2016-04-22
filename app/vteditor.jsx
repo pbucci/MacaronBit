@@ -132,7 +132,11 @@ var VTEditor = React.createClass({
 			playheadFill:"red",
 			timelineLeftOffset:60,
 			timelineRightOffset:20,
+<<<<<<< HEAD
 			examplesModifiable:false,
+=======
+			examplesModifiable:true,
+>>>>>>> pb_2dof
 			playbackAtEndOfVTIcon:false
 		}
 
@@ -332,6 +336,10 @@ var VTEditor = React.createClass({
 						interpolateParameter={this.interpolateParameter}
 						selection={this.state.selection}
 						selectable={iconVisSelectable}
+<<<<<<< HEAD
+=======
+						logValues={true}
+>>>>>>> pb_2dof
 						/>
 					{Object.keys(example_icon.parameters).map( (p) => (
 							<KeyframeEditor
