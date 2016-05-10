@@ -5,6 +5,10 @@ Vibrotactile Icon Editor
 
 Quick install:
 
+For Windows, rename "package[windows use this].json" to "package.json"
+For Mac, rename "package[macs use this].json" to "package.json"
+
+Run the following commands:
 `npm install`
 `npm run deploy`
 
