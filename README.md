@@ -28,14 +28,16 @@ Macaron requires the following libraries:
  - [reflux][reflux]
 
 Begin by installing [NPM][npm] for your OS. Once NPM is installed, install react as follows:
+(note: Code below only work with latest version of Node.js. Try updating node version with "sudo npm install npm -g")
 
- `npm install react --save`
+`npm install react --save`
 
 and install webpack:
 
- - `npm install -g webpack`
+ - `npm install -g webpack` 
  - `npm i webpack --save-dev`
  - `npm i webpack-dev-server --save`
+(note: If you get permission errors, try beginning each command with sudo)
 
 and the JSX syntax handler:
 
@@ -73,6 +75,12 @@ Make sure the Arduino is loaded up with StandardFirmata (Examples > Firmata > St
 - Data pin (usually orange or yellow) : 9
 - High/positive (usually red) : 5V
 - Low/negative/ground (usually black or brown) : any GND
+
+Install xCode command line tools.
+(Note: To compile node-serialport with Node.js 4.x+, you will need to use g++ v4.8 or higher.)
+
+Add this to fix the serialport warning:
+- `sudo npm install serialport`
 
 You can start serving on `localhost:8080` with `node server`.
 
