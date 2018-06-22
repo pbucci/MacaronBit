@@ -5,7 +5,8 @@ var LogStore = require('./logstore.js');
 
 var saveLoadActions = Reflux.createActions(
 	[
-		'save'
+		'save',
+		'loadMacaronFile'
 	]
 );
 
@@ -20,6 +21,18 @@ var saveLoadStore = Reflux.createStore({
 		var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
     	window.open(url, '_blank');
     	window.focus();
+	},
+
+	onLoadMacaronFile(file) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			var data = reader.result;
+			LogStore.actions.log("LOAD_"+data);
+			VTIconStore.actions.setVTIcon(JSON.parse(data), "main");
+		};
+
+		reader.readAsText(file); //assumes 'utf8'
 	}
 
 });

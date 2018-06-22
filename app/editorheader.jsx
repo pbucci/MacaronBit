@@ -30,6 +30,8 @@ var EditorHeader = React.createClass({
 			displayTestButton:true,
 			displayRenderButton:true,
 			displayStopButton:true,
+			displayLoadButton:true,
+			uploadFileID:"uploadedFile"
 	    }
 	},
 
@@ -47,6 +49,14 @@ var EditorHeader = React.createClass({
 
 	_onSaveClick : function(e) {
 		SaveLoadStore.actions.save();
+	},
+
+	_onLoadClick : function(e) {
+		var uploadedFiles = document.getElementById(this.props.uploadFileID);
+		if (uploadedFiles.files.length > 0) {
+			SaveLoadStore.actions.loadMacaronFile(uploadedFiles.files[0]);
+		}
+		uploadedFiles.value = [];
 	},
 
 	_onTestClick : function(e) {
@@ -110,6 +120,12 @@ var EditorHeader = React.createClass({
 			saveButton = (<button onClick={this._onSaveClick}>Finish</button>);
 		}
 
+		var loadButton = <span />
+		if (this.props.displayLoadButton)
+		{
+			loadButton = (<input type="file" id={this.props.uploadFileID} onChange={this._onLoadClick}>Upload</input>);
+		}
+
 		var testButton = <span />
 		if (this.props.displayTestButton)
 		{
@@ -132,6 +148,7 @@ var EditorHeader = React.createClass({
 		return (
 			<div className="header" style={headerStyle}>
 				{startButton}
+				{loadButton}
 				<span className="title unselectable"> Editor </span>
 				{animationOptionDisplay}
 				{interfaceModeDisplay}
